@@ -1,0 +1,18 @@
+[package]
+name = "backend-bluepi-assignment"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+openssl = "0.10"
+diesel = { version = "2.0.0", features = ["mysql", "chrono"] }
+dotenv = "0.15"
+chrono = "0.4"
+actix-web = "4.9.0"
+env_logger = "0.10"
+rand = "0.8.5"
+base64 = "0.22.1"
+aes = "0.7"
+block-modes = "0.8"
+rsa = "0.8"
+bcrypt = "0.12"
