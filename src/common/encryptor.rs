@@ -4,11 +4,10 @@ use std::io::Write;
 use std::path::Path;
 use std::str::from_utf8;
 use rand::RngCore;
-use rand::rngs::{OsRng, ThreadRng};
+use rand::rngs::{ThreadRng};
 use aes::Aes256;
 use block_modes::block_padding::Pkcs7;
 use block_modes::{BlockMode, Cbc};
-use rsa::{RsaPrivateKey, RsaPublicKey};
 use bcrypt::{hash, verify, DEFAULT_COST};
 
 type Aes256Cbc = Cbc<Aes256, Pkcs7>;
@@ -23,14 +22,6 @@ fn generate_new_key() -> Vec<u8> {
     }
 
     key
-}
-
-fn generate_new_rsa_keys() -> (RsaPrivateKey, RsaPublicKey) {
-    let mut rng = OsRng;
-    let private_key = RsaPrivateKey::new(&mut rng, 2048).expect("Failed to generate private key");
-    let public_key = RsaPublicKey::from(&private_key);
-
-    (private_key, public_key)
 }
 
 fn get_secret_key() -> Vec<u8> {

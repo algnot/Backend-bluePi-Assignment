@@ -11,8 +11,18 @@ chrono = "0.4"
 actix-web = "4.9.0"
 env_logger = "0.10"
 rand = "0.8.5"
-base64 = "0.22.1"
 aes = "0.7"
 block-modes = "0.8"
-rsa = "0.8"
 bcrypt = "0.12"
+log = "0.4.22"
+serde = { version = "1.0.216", features = ["derive"] }
+validator = { version = "0.19", features = ["derive"] }
+jsonwebtoken = "9.3.0"
+
+[dependencies.uuid]
+version = "1.11.0"
+features = [
+    "v4",
+    "fast-rng",
+    "macro-diagnostics",
+]
