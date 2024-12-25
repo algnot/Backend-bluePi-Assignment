@@ -18,6 +18,9 @@ log = "0.4.22"
 serde = { version = "1.0.216", features = ["derive"] }
 validator = { version = "0.19", features = ["derive"] }
 jsonwebtoken = "9.3.0"
+actix-multipart = "0.7.2"
+base64 = "0.22.1"
+futures-util = "0.3.31"
 
 [dependencies.uuid]
 version = "1.11.0"

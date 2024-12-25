@@ -2,7 +2,7 @@
 
 CREATE TABLE uploader (
      id VARCHAR(255) NOT NULL PRIMARY KEY,
-     body TEXT NOT NULL,
+     body LONGTEXT NOT NULL,
 
      # meta data
      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

@@ -9,6 +9,7 @@ pub struct GetProductTypeResponse {
     id: String,
     name: String,
     active: bool,
+    image_url: String,
     metadata: Option<MetaDataResponse>
 }
 
@@ -23,6 +24,7 @@ pub async fn get_product_type(path: web::Path<(String,)>) -> impl Responder {
                     id: product_type.id.to_string(),
                     name: product_type.name.to_string(),
                     active: product_type.active.unwrap_or(false),
+                    image_url: product_type.image_id.unwrap_or_else(|| "".parse().unwrap()),
                     metadata: get_meta_data(product_type.created_at, product_type.updated_at, &product_type.created_by, &product_type.updated_by),
                 }
             })

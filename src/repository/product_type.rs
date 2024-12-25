@@ -25,6 +25,7 @@ pub struct ProductType {
 pub struct UpdateProductEnt {
     pub(crate) name: String,
     pub(crate) active: bool,
+    pub(crate) image_id: Option<String>,
 }
 
 impl ProductType {
@@ -49,6 +50,7 @@ impl ProductType {
                 product_type::name.eq(&value.name),
                 product_type::active.eq(&value.active),
                 product_type::updated_by.eq(updated_by),
+                product_type::image_id.eq(&value.image_id),
                 product_type::updated_at.eq(Utc::now().naive_utc()),
             ))
             .execute(conn);
@@ -97,14 +99,14 @@ impl ProductType {
         })
     }
 
-    pub fn create(&self, created_by: &String, name: &String, active: &bool) -> Option<ProductType> {
+    pub fn create(&self, created_by: &String, name: &String, image_id: &String, active: &bool) -> Option<ProductType> {
         let conn = &mut establish_connection();
         diesel::insert_into(product_type::table)
             .values( ProductType {
                 id: self.id.clone(),
                 name: name.clone(),
                 active: Some(*active),
-                image_id: None,
+                image_id: Option::from(image_id.clone()),
                 created_by: created_by.clone(),
                 updated_by: created_by.clone(),
                 created_at: self.created_at,

@@ -8,6 +8,7 @@ use crate::repository::product_type::ProductType;
 pub struct CreateProductTypeRequest {
     #[validate(length(min = 1))]
     name: String,
+    image_id: String,
     active: bool,
 }
 
@@ -22,7 +23,7 @@ pub async fn create_product_type(payload: web::Json<CreateProductTypeRequest>, a
     }
 
     let user = auth.user.unwrap();
-    let product_type = ProductType::new().create(&user.id, &payload.name, &payload.active);
+    let product_type = ProductType::new().create(&user.id, &payload.name, &payload.image_id, &payload.active);
 
     match product_type {
         Some(product_type) => {

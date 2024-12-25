@@ -57,7 +57,7 @@ diesel::table! {
     uploader (id) {
         #[max_length = 255]
         id -> Varchar,
-        body -> Text,
+        body -> Longtext,
         created_at -> Nullable<Timestamp>,
         updated_at -> Nullable<Datetime>,
     }

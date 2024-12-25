@@ -10,6 +10,7 @@ pub struct UpdateProductTypeRequest {
     id: String,
     #[validate(length(min = 1))]
     name: String,
+    image_id: Option<String>,
     active: bool,
 }
 
@@ -26,6 +27,7 @@ pub async fn update_product_type(payload: web::Json<UpdateProductTypeRequest>, a
     let user = auth.user.unwrap();
     let updated_product_type = ProductType::new().update_product(&user.id, &payload.id, &UpdateProductEnt {
         name: payload.name.clone(),
+        image_id: payload.image_id.clone(),
         active: payload.active.clone(),
     });
 

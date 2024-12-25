@@ -1,3 +1,4 @@
 pub mod router;
 pub mod auth;
-mod product_type;
+pub mod product_type;
+pub mod uploader;
