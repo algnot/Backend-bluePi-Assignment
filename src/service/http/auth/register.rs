@@ -1,12 +1,14 @@
 use actix_web::{web, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
 use validator::Validate;
-use crate::common::jwt::{create_jwt, TokenType};
+use crate::common::encryptor::decrypt;
+use crate::common::jwt::{TokenType};
 use crate::common::request::{convert_validate_error_to_response, ErrorResponse};
+use crate::repository::auth_token::AuthToken;
 use crate::repository::users::User;
 
 #[derive(Validate, Deserialize)]
-pub struct RegisterUser {
+pub struct RegisterUserRequest {
     #[validate(length(min = 3))]
     username: String,
 
@@ -18,13 +20,15 @@ pub struct RegisterUser {
 }
 
 #[derive(Serialize)]
-struct UserResponse {
+struct RegisterUserResponse {
     id: String,
+    username: String,
+    email: String,
     access_token: String,
     refresh_token: String
 }
 
-pub async fn register_user(payload: web::Json<RegisterUser>) -> impl Responder {
+pub async fn register_user(payload: web::Json<RegisterUserRequest>) -> impl Responder {
     if let Err(errors) = payload.validate() {
         return HttpResponse::BadRequest().json(convert_validate_error_to_response(errors));
     }
@@ -39,12 +43,12 @@ pub async fn register_user(payload: web::Json<RegisterUser>) -> impl Responder {
     }
 
     let created_user = user.unwrap();
+    let (access_token, refresh_token) = AuthToken::new(&TokenType::AccessToken, &created_user.id).generate_token();
 
-    let access_token = create_jwt(&created_user.id, "TokenTypeAccessToken id", TokenType::TokenTypeAccessToken).unwrap_or_else(|e| e.to_string());
-    let refresh_token = create_jwt(&created_user.id, "TokenTypeRefreshToken id", TokenType::TokenTypeRefreshToken).unwrap_or_else(|e| e.to_string());
-
-    HttpResponse::Ok().json(UserResponse {
+    HttpResponse::Ok().json(RegisterUserResponse {
         id: created_user.id,
+        username: decrypt(&created_user.username),
+        email: decrypt(&created_user.email),
         access_token,
         refresh_token
     })

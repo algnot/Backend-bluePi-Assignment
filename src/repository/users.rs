@@ -1,19 +1,20 @@
-use chrono::Utc;
+use chrono::{NaiveDateTime, Utc};
 use diesel::prelude::*;
 use log::{info, warn};
+use serde::Serialize;
 use crate::common::encryptor::{encrypt, hash_password};
 use crate::di::database::establish_connection;
-use crate::schema::users::dsl::users;
 use crate::schema::users::{email};
+use crate::schema::users;
 
-#[derive(Queryable, Selectable, Insertable)]
+#[derive(Queryable, Selectable, Insertable, Debug, Serialize)]
 #[diesel(table_name = crate::schema::users)]
 #[diesel(check_for_backend(diesel::mysql::Mysql))]
 pub struct User {
     pub id: String,
     pub active: Option<bool>,
-    pub created_at: Option<chrono::NaiveDateTime>,
-    pub updated_at: Option<chrono::NaiveDateTime>,
+    pub created_at: Option<NaiveDateTime>,
+    pub updated_at: Option<NaiveDateTime>,
     pub username: Vec<u8>,
     pub email: Vec<u8>,
     pub hashed_password: Vec<u8>,
@@ -36,7 +37,7 @@ impl User {
     pub fn find_by_email(&self, value: &String) -> Option<User> {
         let conn = &mut establish_connection();
 
-        let result = QueryDsl::filter(users, email.eq(encrypt(value)))
+        let result = users::table.filter(email.eq(encrypt(value)))
             .select(User::as_select())
             .first(conn)
             .optional();
@@ -45,7 +46,25 @@ impl User {
             Ok(Some(user)) => Some(user),
             Ok(None) => None,
             Err(e) => {
-                warn!("Cannot find user with error: {}", e);
+                warn!("Cannot find auth with error: {}", e);
+                None
+            }
+        }
+    }
+
+    pub fn find_by_id(&self, id: &String) -> Option<User> {
+        let conn = &mut establish_connection();
+
+        let result = users::table.filter(users::id.eq(id))
+            .select(User::as_select())
+            .first::<User>(conn)
+            .optional();
+
+        match result {
+            Ok(Some(user)) => Some(user),
+            Ok(None) => None,
+            Err(e) => {
+                warn!("Cannot find auth with error: {}", e);
                 None
             }
         }
@@ -53,7 +72,7 @@ impl User {
 
     pub fn create(&self, email_value: &String, username_value: &String, password_value: &String) -> (Option<User>, bool) {
         if let Some(user) = self.find_by_email(email_value) {
-            info!("Found existing user {}", email_value);
+            info!("Found existing auth {}", email_value);
             return (Some(user), true)
         }
 
@@ -69,7 +88,7 @@ impl User {
                 hashed_password: encrypt(&hash_password(password_value).expect("cannot hash password")),
             })
             .execute(conn)
-            .expect("Error saving new user");
+            .expect("Error saving new auth");
 
         (self.find_by_email(email_value), false)
     }
