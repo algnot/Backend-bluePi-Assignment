@@ -9,6 +9,7 @@ CREATE TABLE product (
       type_id VARCHAR(255),
       recommend BOOLEAN DEFAULT FALSE,
       active BOOLEAN DEFAULT TRUE,
+      image_id VARCHAR(255),
 
       # meta data
       created_by VARCHAR(255) NOT NULL,

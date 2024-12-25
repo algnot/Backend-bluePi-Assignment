@@ -3,6 +3,7 @@ CREATE TABLE product_type (
     id VARCHAR(255) NOT NULL PRIMARY KEY,
     name TEXT NOT NULL,
     active BOOLEAN DEFAULT TRUE,
+    image_id VARCHAR(255),
 
     # meta data
     created_by VARCHAR(255) NOT NULL,

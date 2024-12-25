@@ -2,9 +2,7 @@
 
 CREATE TABLE uploader (
      id VARCHAR(255) NOT NULL PRIMARY KEY,
-     url TEXT NOT NULL,
-     ref_table TEXT NOT NULL,
-     ref_id VARCHAR(255) NOT NULL,
+     body TEXT NOT NULL,
 
      # meta data
      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

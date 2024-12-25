@@ -26,6 +26,8 @@ diesel::table! {
         recommend -> Nullable<Bool>,
         active -> Nullable<Bool>,
         #[max_length = 255]
+        image_id -> Nullable<Varchar>,
+        #[max_length = 255]
         created_by -> Varchar,
         #[max_length = 255]
         updated_by -> Varchar,
@@ -41,6 +43,8 @@ diesel::table! {
         name -> Text,
         active -> Nullable<Bool>,
         #[max_length = 255]
+        image_id -> Nullable<Varchar>,
+        #[max_length = 255]
         created_by -> Varchar,
         #[max_length = 255]
         updated_by -> Varchar,
@@ -53,10 +57,7 @@ diesel::table! {
     uploader (id) {
         #[max_length = 255]
         id -> Varchar,
-        url -> Text,
-        ref_table -> Text,
-        #[max_length = 255]
-        ref_id -> Varchar,
+        body -> Text,
         created_at -> Nullable<Timestamp>,
         updated_at -> Nullable<Datetime>,
     }

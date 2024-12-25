@@ -14,6 +14,7 @@ pub struct Product {
     pub type_id: Option<String>,
     pub recommend: Option<bool>,
     pub active: Option<bool>,
+    pub image_id: Option<String>,
 
     // meta data
     pub created_by: String,
@@ -33,6 +34,7 @@ impl Product {
             type_id: Option::from("".to_string()),
             recommend: Some(false),
             active: Some(true),
+            image_id: None,
             created_by: "".to_string(),
             updated_by: "".to_string(),
             created_at: Option::from(Utc::now().naive_utc()),

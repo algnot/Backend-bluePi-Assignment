@@ -13,7 +13,8 @@ pub struct ProductType {
     pub id: String,
     pub name: String,
     pub active: Option<bool>,
-    
+    pub image_id: Option<String>,
+
     // meta data
     pub created_by: String,
     pub updated_by: String,
@@ -32,6 +33,7 @@ impl ProductType {
             id: uuid::Uuid::new_v4().to_string(),
             name: "".to_string(),
             active: Some(true),
+            image_id: None,
             created_by: "".to_string(),
             updated_by: "".to_string(),
             created_at: Option::from(Utc::now().naive_utc()),
@@ -102,6 +104,7 @@ impl ProductType {
                 id: self.id.clone(),
                 name: name.clone(),
                 active: Some(*active),
+                image_id: None,
                 created_by: created_by.clone(),
                 updated_by: created_by.clone(),
                 created_at: self.created_at,
