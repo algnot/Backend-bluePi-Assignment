@@ -75,6 +75,17 @@ impl Product {
         }
     }
 
+    pub fn get_all_products(&self) -> Vec<Product> {
+        let conn = &mut establish_connection();
+
+        product::table
+            .select(Product::as_select())
+            .load::<Product>(conn).unwrap_or_else(|e| {
+            warn!("Error retrieving products: {}", e);
+            vec![]
+        })
+    }
+
     pub fn create(&self, created_by: &String, value: CreateProductEnt) -> Option<Product> {
         let conn = &mut establish_connection();
         diesel::insert_into(product::table)

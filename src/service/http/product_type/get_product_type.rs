@@ -14,8 +14,8 @@ pub struct GetProductTypeResponse {
 }
 
 pub async fn get_product_type(path: web::Path<(String,)>) -> impl Responder {
-    let product_id = path.into_inner().0;
-    let product_type = ProductType::new().get_product_type_by_id(&product_id);
+    let product_type_id = path.into_inner().0;
+    let product_type = ProductType::new().get_product_type_by_id(&product_type_id);
 
     match product_type {
         Some(product_type) => {
@@ -32,7 +32,7 @@ pub async fn get_product_type(path: web::Path<(String,)>) -> impl Responder {
         None => {
             HttpResponse::NotFound().json(ErrorResponse {
                 is_error: true,
-                message: format!("product with id {} not found", product_id),
+                message: format!("product with id {} not found", product_type_id),
             })
         }
     }
