@@ -21,6 +21,11 @@ pub struct ProductType {
     pub updated_at: Option<NaiveDateTime>
 }
 
+pub struct UpdateProductEnt {
+    pub(crate) name: String,
+    pub(crate) active: bool,
+}
+
 impl ProductType {
     pub fn new() -> Self {
         Self {
@@ -31,6 +36,33 @@ impl ProductType {
             updated_by: "".to_string(),
             created_at: Option::from(Utc::now().naive_utc()),
             updated_at: Option::from(Utc::now().naive_utc()),
+        }
+    }
+
+    pub fn update_product(&self, updated_by: &String, id: &String, value: &UpdateProductEnt) -> Option<ProductType> {
+        let conn = &mut establish_connection();
+
+        let update_result = diesel::update(product_type::table.filter(product_type::id.eq(id)))
+            .set((
+                product_type::name.eq(&value.name),
+                product_type::active.eq(&value.active),
+                product_type::updated_by.eq(updated_by),
+                product_type::updated_at.eq(Utc::now().naive_utc()),
+            ))
+            .execute(conn);
+
+        match update_result {
+            Ok(rows_updated) if rows_updated > 0 => {
+                self.get_product_type_by_id(id)
+            }
+            Ok(_) => {
+                warn!("No product type found with ID: {}", id);
+                None
+            }
+            Err(e) => {
+                warn!("Failed to update product type with ID {}: {}", id, e);
+                None
+            }
         }
     }
 
