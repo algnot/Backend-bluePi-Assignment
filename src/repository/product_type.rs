@@ -3,10 +3,7 @@ use diesel::{Insertable, Queryable, RunQueryDsl, Selectable};
 use log::warn;
 use serde::Serialize;
 use diesel::prelude::*;
-use crate::common::request::AuthTokenHeader;
 use crate::di::database::establish_connection;
-use crate::repository::users::User;
-use crate::schema::users;
 use crate::schema::product_type;
 
 #[derive(Queryable, Selectable, Insertable, Debug, Serialize)]
@@ -55,9 +52,20 @@ impl ProductType {
         }
     }
 
+    pub fn get_all_product_type(&self) -> Vec<ProductType> {
+        let conn = &mut establish_connection();
+
+        product_type::table
+            .select(ProductType::as_select())
+            .load::<ProductType>(conn).unwrap_or_else(|e| {
+            warn!("Error retrieving product types: {}", e);
+            vec![]
+        })
+    }
+
     pub fn create(&self, created_by: &String, name: &String, active: &bool) -> Option<ProductType> {
         let conn = &mut establish_connection();
-        diesel::insert_into(crate::schema::product_type::table)
+        diesel::insert_into(product_type::table)
             .values( ProductType {
                 id: self.id.clone(),
                 name: name.clone(),
