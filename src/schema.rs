@@ -19,8 +19,8 @@ diesel::table! {
         id -> Varchar,
         name -> Text,
         description -> Nullable<Text>,
-        price -> Nullable<Decimal>,
-        quantity -> Nullable<Decimal>,
+        price -> Nullable<Double>,
+        quantity -> Nullable<Double>,
         #[max_length = 255]
         type_id -> Nullable<Varchar>,
         recommend -> Nullable<Bool>,
@@ -54,8 +54,7 @@ diesel::table! {
         #[max_length = 255]
         id -> Varchar,
         url -> Text,
-        #[sql_name = "ref"]
-        ref_ -> Text,
+        ref_table -> Text,
         #[max_length = 255]
         ref_id -> Varchar,
         created_at -> Nullable<Timestamp>,

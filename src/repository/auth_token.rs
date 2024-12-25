@@ -1,13 +1,8 @@
 use chrono::{Duration, Utc};
-use diesel::{Insertable, QueryDsl, Queryable, RunQueryDsl, Selectable, SelectableHelper};
+use diesel::{Insertable, QueryDsl, Queryable, RunQueryDsl, Selectable};
 use log::warn;
-use crate::common::encryptor::encrypt;
 use crate::common::jwt::{convert_token_type, create_jwt, TokenType};
 use crate::di::database::establish_connection;
-use crate::repository::users::User;
-use crate::schema::users::dsl::users;
-use crate::schema::users::email;
-use diesel::associations::HasTable;
 use diesel::prelude::*;
 use crate::schema::auth_token;
 

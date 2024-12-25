@@ -1,5 +1,5 @@
-pub mod user;
+pub mod auth;
 pub mod register;
 pub mod login;
 pub mod access_token;
-mod me;
+pub mod me;

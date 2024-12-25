@@ -1,4 +1,4 @@
-use actix_web::{FromRequest, HttpResponse, Responder};
+use actix_web::{HttpResponse, Responder};
 use chrono::{Duration, Utc};
 use serde::{Serialize};
 use crate::common::jwt::{convert_token_type, create_jwt, TokenType};

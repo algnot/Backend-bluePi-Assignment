@@ -1,5 +1,4 @@
 use std::fmt;
-use std::io::Write;
 use jsonwebtoken::{decode, encode, Algorithm, DecodingKey, EncodingKey, Header, Validation};
 use log::warn;
 use serde::{Deserialize, Serialize};

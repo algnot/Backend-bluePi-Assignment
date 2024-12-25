@@ -77,7 +77,7 @@ impl User {
         }
 
         let conn = &mut establish_connection();
-        diesel::insert_into(crate::schema::users::table)
+        diesel::insert_into(users::table)
             .values(User {
                 id: self.id.clone(),
                 active: self.active.clone(),
