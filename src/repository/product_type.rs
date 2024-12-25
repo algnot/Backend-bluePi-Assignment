@@ -22,7 +22,7 @@ pub struct ProductType {
     pub updated_at: Option<NaiveDateTime>
 }
 
-pub struct UpdateProductEnt {
+pub struct UpdateProductTypeEnt {
     pub(crate) name: String,
     pub(crate) active: bool,
     pub(crate) image_id: Option<String>,
@@ -42,7 +42,7 @@ impl ProductType {
         }
     }
 
-    pub fn update_product(&self, updated_by: &String, id: &String, value: &UpdateProductEnt) -> Option<ProductType> {
+    pub fn update_product_type(&self, updated_by: &String, id: &String, value: &UpdateProductTypeEnt) -> Option<ProductType> {
         let conn = &mut establish_connection();
 
         let update_result = diesel::update(product_type::table.filter(product_type::id.eq(id)))

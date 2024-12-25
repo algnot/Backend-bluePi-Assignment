@@ -1,6 +1,11 @@
 use chrono::{NaiveDateTime, Utc};
 use diesel::{Insertable, Queryable, Selectable};
 use serde::Serialize;
+use diesel::prelude::*;
+use log::warn;
+use crate::di::database::establish_connection;
+use crate::repository::product_type::ProductType;
+use crate::schema::{product, product_type};
 
 #[derive(Queryable, Selectable, Insertable, Debug, Serialize)]
 #[diesel(table_name = crate::schema::product)]
@@ -23,6 +28,17 @@ pub struct Product {
     pub updated_at: Option<NaiveDateTime>
 }
 
+pub struct CreateProductEnt {
+    pub(crate) name: String,
+    pub(crate) description: Option<String>,
+    pub(crate) image_id: Option<String>,
+    pub(crate) price: f64,
+    pub(crate) quantity: f64,
+    pub(crate) type_id: Option<String>,
+    pub(crate) recommend: bool,
+    pub(crate) active: bool,
+}
+
 impl Product {
     pub fn new() -> Self {
         Self {
@@ -42,4 +58,44 @@ impl Product {
         }
     }
 
+    pub fn get_product_by_id(&self, id: &String) -> Option<Product> {
+        let conn = &mut establish_connection();
+        let result = product::table.filter(product::id.eq(id))
+            .select(Product::as_select())
+            .first::<Product>(conn)
+            .optional();
+
+        match result {
+            Ok(Some(product)) => Some(product),
+            Ok(None) => None,
+            Err(e) => {
+                warn!("Cannot find product with error: {}", e);
+                None
+            }
+        }
+    }
+
+    pub fn create(&self, created_by: &String, value: CreateProductEnt) -> Option<Product> {
+        let conn = &mut establish_connection();
+        diesel::insert_into(product::table)
+            .values( Product {
+                id: self.id.clone(),
+                name: value.name,
+                description: value.description,
+                price: Option::from(value.price),
+                quantity: Option::from(value.quantity),
+                type_id: value.type_id,
+                recommend: Option::from(value.recommend),
+                active: Option::from(value.active),
+                image_id: value.image_id,
+                created_by: created_by.clone(),
+                updated_by: created_by.clone(),
+                created_at: self.created_at,
+                updated_at: self.updated_at,
+            })
+            .execute(conn)
+            .expect("Error saving new product");
+
+        self.get_product_by_id(&self.id)
+    }
 }

@@ -2,7 +2,7 @@ use actix_web::{web, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 use crate::common::request::{convert_validate_error_to_response, AuthTokenHeader, ErrorResponse};
-use crate::repository::product_type::{ProductType, UpdateProductEnt};
+use crate::repository::product_type::{ProductType, UpdateProductTypeEnt};
 
 #[derive(Validate, Deserialize)]
 pub struct UpdateProductTypeRequest {
@@ -25,7 +25,7 @@ pub async fn update_product_type(payload: web::Json<UpdateProductTypeRequest>, a
     }
 
     let user = auth.user.unwrap();
-    let updated_product_type = ProductType::new().update_product(&user.id, &payload.id, &UpdateProductEnt {
+    let updated_product_type = ProductType::new().update_product_type(&user.id, &payload.id, &UpdateProductTypeEnt {
         name: payload.name.clone(),
         image_id: payload.image_id.clone(),
         active: payload.active.clone(),

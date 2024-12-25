@@ -69,15 +69,20 @@ impl FromRequest for AuthTokenHeader {
                                 return ready(Err(actix_web::error::ErrorUnauthorized("Token has expired")));
                             }
 
-                            let auth_token = AuthToken::new(&claims.token_type, &claims.uid).get_token_info(&claims.token_id).unwrap();
+                            let auth_token = AuthToken::new(&claims.token_type, &claims.uid).get_token_info(&claims.token_id);
 
-                            if auth_token.is_revoke.unwrap() {
-                                return ready(Err(actix_web::error::ErrorUnauthorized("Token is revoked")));
+                            match auth_token {
+                                Some(auth_token) => {
+                                    if auth_token.is_revoke.unwrap() {
+                                        return ready(Err(actix_web::error::ErrorUnauthorized("Token is revoked")));
+                                    }
+
+                                    let user = User::new().find_by_id(&claims.uid).unwrap();
+
+                                    ready(Ok(AuthTokenHeader { token: claims , user: Some(user) }))
+                                }
+                                None => ready(Err(actix_web::error::ErrorUnauthorized("Unauthorized"))),
                             }
-
-                            let user = User::new().find_by_id(&claims.uid).unwrap();
-
-                            ready(Ok(AuthTokenHeader { token: claims , user: Some(user) }))
                         }
                         Err(err) => {
                             ready(Err(actix_web::error::ErrorUnauthorized(err.to_string())))
