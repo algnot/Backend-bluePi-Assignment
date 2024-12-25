@@ -1,0 +1,12 @@
+-- Your SQL goes here
+
+CREATE TABLE uploader (
+     id VARCHAR(255) NOT NULL PRIMARY KEY,
+     url TEXT NOT NULL,
+     ref TEXT NOT NULL,
+     ref_id VARCHAR(255) NOT NULL,
+
+     # meta data
+     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
