@@ -1,4 +1,4 @@
-use actix_web::{web, HttpResponse, Responder};
+use actix_web::{HttpResponse, Responder};
 use serde::Serialize;
 use crate::repository::product::Product;
 

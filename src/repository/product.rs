@@ -4,8 +4,7 @@ use serde::Serialize;
 use diesel::prelude::*;
 use log::warn;
 use crate::di::database::establish_connection;
-use crate::repository::product_type::ProductType;
-use crate::schema::{product, product_type};
+use crate::schema::{product};
 
 #[derive(Queryable, Selectable, Insertable, Debug, Serialize)]
 #[diesel(table_name = crate::schema::product)]
@@ -108,5 +107,37 @@ impl Product {
             .expect("Error saving new product");
 
         self.get_product_by_id(&self.id)
+    }
+
+    pub fn update_product(&self, updated_by: &String, id: &String, value: &CreateProductEnt) -> Option<Product> {
+        let conn = &mut establish_connection();
+        let update_result = diesel::update(product::table.find(id))
+            .set((
+                product::name.eq(&value.name),
+                product::description.eq(&value.description),
+                product::image_id.eq(&value.image_id),
+                product::price.eq(&value.price),
+                product::quantity.eq(&value.quantity),
+                product::type_id.eq(&value.type_id),
+                product::recommend.eq(&value.recommend),
+                product::active.eq(&value.active),
+                product::updated_by.eq(updated_by),
+                product::updated_at.eq(Utc::now().naive_utc()),
+            ))
+            .execute(conn);
+
+        match update_result {
+            Ok(rows_updated) if rows_updated > 0 => {
+                self.get_product_by_id(id)
+            }
+            Ok(_) => {
+                warn!("No product type found with ID: {}", id);
+                None
+            }
+            Err(e) => {
+                warn!("Failed to update product type with ID {}: {}", id, e);
+                None
+            }
+        }
     }
 }

@@ -42,7 +42,7 @@ pub async fn update_product_type(payload: web::Json<UpdateProductTypeRequest>, a
         None => {
             HttpResponse::BadRequest().json(ErrorResponse {
                 is_error: true,
-                message: format!("product with id {} not found", payload.id),
+                message: format!("product type with id {} not found", payload.id),
             })
         }
     }

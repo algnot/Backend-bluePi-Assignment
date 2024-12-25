@@ -1,5 +1,4 @@
 use actix_web::{web, HttpResponse, Responder};
-use diesel::serialize::IsNull::No;
 use serde::Serialize;
 use crate::common::request::{get_meta_data, ErrorResponse, MetaDataResponse};
 use crate::repository::product::Product;
