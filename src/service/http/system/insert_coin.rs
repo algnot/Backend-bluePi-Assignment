@@ -1,6 +1,7 @@
 use actix_web::{web, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
 use validator::Validate;
+use crate::common::request::convert_validate_error_to_response;
 use crate::repository::system_parameter::SystemParameter;
 use crate::service::http::system::get_coin::{get_all_coin, GetCoinResponse};
 
@@ -31,6 +32,10 @@ pub struct InsertCoinResponse {
 }
 
 pub async fn insert_coin(payload: web::Json<InsertCoinRequest>) -> impl Responder {
+    if let Err(errors) = payload.validate() {
+        return HttpResponse::BadRequest().json(convert_validate_error_to_response(errors));
+    }
+
     let all_coin = get_all_coin();
 
     SystemParameter::new().update_by_key_value(&"coin-1".to_string(), &(all_coin.coin_1 + payload.coin_1).to_string());

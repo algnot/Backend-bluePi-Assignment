@@ -2,8 +2,8 @@ use chrono::{NaiveDateTime, Utc};
 use diesel::{Insertable, Queryable, Selectable};
 use serde::Serialize;
 use crate::di::database::establish_connection;
-use diesel::prelude::*;
 use log::warn;
+use diesel::prelude::*;
 use crate::schema::{system_parameter};
 use crate::schema::system_parameter::key_name;
 
@@ -43,7 +43,8 @@ impl SystemParameter {
     pub fn get_by_key_name(&self, key: &String) -> Option<SystemParameter> {
         let conn = &mut establish_connection();
 
-        let result = system_parameter::table.filter(key_name.eq(key))
+        let result = system_parameter::table
+            .filter(key_name.eq(key))
             .select(SystemParameter::as_select())
             .first(conn)
             .optional();
