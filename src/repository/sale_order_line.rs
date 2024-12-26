@@ -1,6 +1,5 @@
 use chrono::{NaiveDateTime, Utc};
 use diesel::{BoolExpressionMethods, Insertable, Queryable, RunQueryDsl, Selectable};
-use futures_util::StreamExt;
 use log::warn;
 use serde::Serialize;
 use crate::di::database::establish_connection;
@@ -81,6 +80,11 @@ impl SaleOrderLine {
         match Product::new().get_product_by_id(product_id) {
             Some(product) => {
                 let conn = &mut establish_connection();
+
+                if product.quantity.unwrap_or(0.0) < *quantity as f64 {
+                    return None;
+                }
+
                 diesel::insert_into(sale_order_line::table)
                     .values(NewSaleOrderLine {
                         product_id: product.id.clone(),
@@ -91,6 +95,7 @@ impl SaleOrderLine {
                     .execute(conn)
                     .expect("Error saving new sale order line");
 
+                Product::new().update_product_quantity(&product.id, &(product.quantity.unwrap_or(0.0) - *quantity as f64));
                 self.get_by_sale_order_id_and_product_id(sale_order_id, product_id)
             }
             None => {

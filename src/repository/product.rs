@@ -109,6 +109,29 @@ impl Product {
         self.get_product_by_id(&self.id)
     }
 
+    pub fn update_product_quantity(&self, id: &String, quantity: &f64) -> Option<Product> {
+        let conn = &mut establish_connection();
+        let update_result = diesel::update(product::table.find(id))
+            .set((
+                product::quantity.eq(&quantity),
+            ))
+            .execute(conn);
+
+        match update_result {
+            Ok(rows_updated) if rows_updated > 0 => {
+                self.get_product_by_id(id)
+            }
+            Ok(_) => {
+                warn!("No product type found with ID: {}", id);
+                None
+            }
+            Err(e) => {
+                warn!("Failed to update product type with ID {}: {}", id, e);
+                None
+            }
+        }
+    }
+
     pub fn update_product(&self, updated_by: &String, id: &String, value: &CreateProductEnt) -> Option<Product> {
         let conn = &mut establish_connection();
         let update_result = diesel::update(product::table.find(id))

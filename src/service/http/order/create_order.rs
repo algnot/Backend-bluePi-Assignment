@@ -49,7 +49,7 @@ pub async fn create_order(payload: web::Json<CreateOrderRequest>) -> impl Respon
                             sale_order.update_status(&sale_order.id, &SaleOrderStatus::SaleOrderStatusCanceled);
                             ErrorResponse {
                                 is_error: true,
-                                message: format!("cannot found product id {}", order_line.product_id),
+                                message: format!("cannot found product id {} or not enough quantity", order_line.product_id),
                             }
                         })
                     }

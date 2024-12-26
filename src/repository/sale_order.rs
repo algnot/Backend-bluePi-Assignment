@@ -1,15 +1,13 @@
+use crate::repository::product::Product;
 use chrono::{NaiveDateTime, Utc};
 use diesel::{Insertable, Queryable, RunQueryDsl, Selectable};
-use serde::{Deserialize, Serialize};
+use serde::{Serialize};
 use crate::di::database::establish_connection;
 use log::warn;
-use rand::distributions::Alphanumeric;
 use rand::Rng;
 use diesel::prelude::*;
-use validator::Validate;
-use crate::repository::product::Product;
 use crate::repository::sale_order_line::SaleOrderLine;
-use crate::schema::{product_type, sale_order};
+use crate::schema::{sale_order};
 use crate::schema::sale_order::sale_order_name;
 
 #[derive(Queryable, Selectable, Debug, Serialize)]
@@ -32,6 +30,7 @@ pub struct NewSaleOrder {
     pub total: f64,
 }
 
+#[derive(PartialEq)]
 pub enum SaleOrderStatus {
     SaleOrderStatusCreated,
     SaleOrderStatusPaid,
@@ -190,6 +189,15 @@ impl SaleOrder {
                 sale_order::status.eq(convert_sale_order_status_to_int(status)),
             ))
             .execute(conn);
+
+        if status == &SaleOrderStatus::SaleOrderStatusCanceled {
+            let sale_order_line = SaleOrderLine::new().get_by_sale_order_id(sale_order_id);
+
+            for sale_order_line in sale_order_line {
+                let product = Product::new().get_product_by_id(&sale_order_line.product_id).unwrap_or(Product::new());
+                product.update_product_quantity(&product.id, &(sale_order_line.quantity.unwrap_or(0) as f64 + product.quantity.unwrap_or(0.0)));
+            }
+        }
 
         match update_result {
             Ok(rows_updated) if rows_updated > 0 => {
