@@ -54,6 +54,16 @@ diesel::table! {
 }
 
 diesel::table! {
+    system_parameter (id) {
+        id -> Integer,
+        key_name -> Longtext,
+        key_value -> Longtext,
+        created_at -> Nullable<Timestamp>,
+        updated_at -> Nullable<Datetime>,
+    }
+}
+
+diesel::table! {
     uploader (id) {
         #[max_length = 255]
         id -> Varchar,
@@ -83,6 +93,7 @@ diesel::allow_tables_to_appear_in_same_query!(
     auth_token,
     product,
     product_type,
+    system_parameter,
     uploader,
     users,
 );
