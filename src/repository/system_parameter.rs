@@ -4,7 +4,7 @@ use serde::Serialize;
 use crate::di::database::establish_connection;
 use diesel::prelude::*;
 use log::warn;
-use crate::schema::{product_type, system_parameter};
+use crate::schema::{system_parameter};
 use crate::schema::system_parameter::key_name;
 
 #[derive(Queryable, Selectable, Debug, Serialize)]
