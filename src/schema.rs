@@ -54,6 +54,30 @@ diesel::table! {
 }
 
 diesel::table! {
+    sale_order (id) {
+        id -> Integer,
+        sale_order_name -> Longtext,
+        status -> Nullable<Integer>,
+        total -> Nullable<Double>,
+        created_at -> Nullable<Timestamp>,
+        updated_at -> Nullable<Datetime>,
+    }
+}
+
+diesel::table! {
+    sale_order_line (id) {
+        id -> Integer,
+        #[max_length = 255]
+        product_id -> Varchar,
+        sale_order_id -> Integer,
+        quantity -> Nullable<Integer>,
+        total -> Nullable<Double>,
+        created_at -> Nullable<Timestamp>,
+        updated_at -> Nullable<Datetime>,
+    }
+}
+
+diesel::table! {
     system_parameter (id) {
         id -> Integer,
         key_name -> Longtext,
@@ -88,11 +112,15 @@ diesel::table! {
 
 diesel::joinable!(auth_token -> users (uid));
 diesel::joinable!(product -> product_type (type_id));
+diesel::joinable!(sale_order_line -> product (product_id));
+diesel::joinable!(sale_order_line -> sale_order (sale_order_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     auth_token,
     product,
     product_type,
+    sale_order,
+    sale_order_line,
     system_parameter,
     uploader,
     users,
