@@ -50,7 +50,7 @@ pub fn convert_sale_order_status_to_string(status: i32) -> String {
         String::from("Created")
     }
     else if status == SaleOrderStatus::SaleOrderStatusPaid as i32 {
-        String::from("Created")
+        String::from("Paid")
     }
     else if status == SaleOrderStatus::SaleOrderStatusCanceled as i32 {
         String::from("Canceled")

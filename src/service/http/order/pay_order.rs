@@ -77,7 +77,7 @@ pub async fn pay_order(payload: web::Json<PayOrderRequest>) -> impl Responder {
             let user_amount = to_total(&payload.user_coin);
 
             if sale_order.status.unwrap_or(2) == convert_sale_order_status_to_int(&SaleOrderStatus::SaleOrderStatusCanceled) {
-                return HttpResponse::BadRequest().json({
+                return HttpResponse::Ok().json({
                     PayOrderResponse {
                         is_error: true,
                         message: "sale order is canceled".to_string(),
@@ -87,8 +87,8 @@ pub async fn pay_order(payload: web::Json<PayOrderRequest>) -> impl Responder {
             }
 
             if user_amount < sale_order_amount {
-                return HttpResponse::BadRequest().json({
-                    sale_order.update_status(&sale_order.id, &SaleOrderStatus::SaleOrderStatusCanceled);
+                sale_order.update_status(&sale_order.id, &SaleOrderStatus::SaleOrderStatusCanceled);
+                return HttpResponse::Ok().json({
                     PayOrderResponse {
                         is_error: true,
                         message: "sale order amount is more then user amount".to_string(),
@@ -101,12 +101,22 @@ pub async fn pay_order(payload: web::Json<PayOrderRequest>) -> impl Responder {
             let mut all_coin= insert_coin_to_db(&payload.user_coin).info;
 
             let change_coin = calculate_change_coin(&mut all_coin, &change_amount);
-            if to_total(&change_coin) == 0.0 {
+            if to_total(&change_coin) != change_amount {
                 sale_order.update_status(&sale_order.id, &SaleOrderStatus::SaleOrderStatusCanceled);
-                return HttpResponse::BadRequest().json({
+                insert_coin_to_db(&Coin {
+                    coin_1: &payload.user_coin.coin_1 * -1,
+                    coin_5: &payload.user_coin.coin_5 * -1,
+                    coin_10: &payload.user_coin.coin_10 * -1,
+                    bank_20: &payload.user_coin.bank_20 * -1,
+                    bank_50: &payload.user_coin.bank_50 * -1,
+                    bank_100: &payload.user_coin.bank_100 * -1,
+                    bank_500: &payload.user_coin.bank_500 * -1,
+                    bank_1000: &payload.user_coin.bank_1000 * -1,
+                });
+                return HttpResponse::Ok().json({
                     PayOrderResponse {
                         is_error: true,
-                        message: "there are not enough coins for change".to_string(),
+                        message: "there are not enough coins for change system will return your coin".to_string(),
                         change_coin: clone_coin(&payload.user_coin)
                     }
                 })
