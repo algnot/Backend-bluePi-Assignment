@@ -18,7 +18,7 @@
 - 💡 เข้าดู database ผ่าน phpmyadmin ที่ http://localhost:8090 (username: root, password:root)
 
 ### 📁 Project Structure
-
+- project นี้จะประกอบไปด้วย structure ตามด้านล่างนี้
 ```bash
     - src
         - common #สำหรับเก็บ common function  
@@ -30,7 +30,9 @@
             - migrator.rs #เอาไว้สำหรับ migrate starter data ใน db 
         - main.rs #ไฟล์หลักของ project
 ```
-- ตัวอย่างเช่นถ้าเราต้องการเพิ่ม api เส้น `product/list` เราจะไปเพิ่ม folder `/product` ที่ `service/http/product` และไฟล์ที่ชื่อ `list_product.rs` ข้างในและกำหนด router ใน `product.rs`
+
+### 📁 How to add new API
+- ถ้าเราต้องการเพิ่ม api เส้น `product/list` เราจะไปเพิ่ม folder `/product` ที่ `service/http/product` และไฟล์ที่ชื่อ `list_product.rs` ข้างในและกำหนด router ใน `product.rs`
 
 ```rust
 // 📄 product.rs
@@ -56,3 +58,10 @@
     }
 ```
 
+### 📁 How to add model
+- ในการเพิ่ม model project นี้จะใช้ diesel สามารถอ่านการ migrate db เบื้องต้นได้ที่ https://diesel.rs/guides/getting-started
+- สำหรับ field ที่เป็น encrypt จะเก็บเป็น `BLOB` และประกาศ type ของ struct เป็น `Vec<u8>`
+- การ encrypt จะใช้ method `encrypt(original_string: &String) -> Vec<u8>`
+- การ decrypt จะใช้ method `decrypt(encrypted_bytes: &Vec<u8>) -> String` 
+
+Happy hacking kub :)
