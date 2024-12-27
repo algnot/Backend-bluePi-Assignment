@@ -11,39 +11,48 @@
 ### 📁 Setup project with docker
 - run project with docker
 ```bash
-    1: 📄 docker-compose up --build -d
+    1: 📄 docker compose build
+    2: 📄 docker compose up -d
 ```
-- 💡 path api backend http://localhost:8080 สามารถดู api spec ผ่านไฟล์ [postman](/postman_collection.json)
+- 💡 Path API backend http://localhost:8080 ถ้าไม่แน่ใจว่า server รันจริงไหมลองเข้า http://localhost:8080/product/list ก็ได้คับ ;-; สามารถดู API spec ผ่านไฟล์ [postman](/postman_collection.json)
+- 💡 เข้าดู database ผ่าน phpmyadmin ที่ http://localhost:8090 (username: root, password:root)
 
-### 📁 Setup project for development
-- Install nvm
+### 📁 Project Structure
+
 ```bash
-    1: 📄 brew install nvm
-    2: 📄 export NVM_DIR="$HOME/.nvm"
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  
+    - src
+        - common #สำหรับเก็บ common function  
+        - di #สำหรับจัดการ dependencies ต่าง ๆ เช่น db, server
+        - repository #สำหรับกำหนด model และส่วนที่ติดต่อกับ db ทั้งหมด
+        - service #ส่วนที่จะเอาออกไปให้ external เรียกใช้
+            - http #เวลาเพิ่ม API เส้นใหม่จะเพิ่มใน folder นี้
+                - router.rs #สำหรับกำหนด router ของเส้น API ทั้งหมด
+            - migrator.rs #เอาไว้สำหรับ migrate starter data ใน db 
+        - main.rs #ไฟล์หลักของ project
 ```
-- Install node
-```bash
-    1: 📄 nvm install v18.16.1
-    2: 📄 nvm alias default 18.16.1
+- ตัวอย่างเช่นถ้าเราต้องการเพิ่ม api เส้น `product/list` เราจะไปเพิ่ม folder `/product` ที่ `service/http/product` และไฟล์ที่ชื่อ `list_product.rs` ข้างในและกำหนด router ใน `product.rs`
+
+```rust
+// 📄 product.rs
+    use actix_web::web;
+    // import ด้วย
+    use crate::service::http::product::list_product::list_product;
+
+    pub fn product_router(cfg: &mut web::ServiceConfig) {
+        // เพิ่ม `/list` logic ทั้งหมดจะอยู่ใน list_product.rs (ยกเว้นส่วนที่ต่อกับ db จะทำผ่าน repository)
+        cfg.route("/list", web::get().to(list_product));
+    }
 ```
-- Check node version
-```bash
-    1: 📄 node -v # v.18.16.1
-    2: 📄 npm -v  # v.9.5.1
+- หลักจากกำหนด router แล้วถ้าเป็นการเพิ่ม API ครั้งแรกจะต้องนำ `product_router` ไปกำหนดที่ `service/http/router.rs` อีกที
+```rust
+// 📄 router.rs
+    use actix_web::{web};
+    // import ด้วย
+    use crate::service::http::product::product::product_router;
+
+    pub fn main_router(cfg: &mut web::ServiceConfig) {
+        // เพิ่ม product_router ใน `/product`
+        cfg.service(web::scope("/product").configure(product_router));
+    }
 ```
-- Clone repo นี้แล้ว cd มาที่ project
-- Install node dependencies
-```bash
-    1: 📄 npm install
-```
-- Migrete database
-```bash
-    1: 📄 npm run migrete
-```
-- Run project
-```bash
-    1: 📄 npm run dev
-```
-- 💡 เข้าไปที่ http://localhost:8080 จะเจอกับข้อความ `Hello world`
+

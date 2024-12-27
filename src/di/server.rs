@@ -22,7 +22,7 @@ pub async fn init_api_server() -> std::io::Result<()> {
             .wrap(cors)
             .service(web::scope("").configure(main_router))
     })
-        .bind(("127.0.0.1", server_port))?
+        .bind("0.0.0.0:8080")?
         .run()
         .await
 }

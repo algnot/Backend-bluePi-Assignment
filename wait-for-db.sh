@@ -1,13 +1,20 @@
+#!/bin/bash
 
 host="$1"
 shift
 cmd="$@"
 
-until mysqladmin ping -h"$host" --silent; do
-  echo "Waiting for database at $host..."
-  sleep 2
-done
+echo "Delay for database $host..."
+sleep 10
 
-echo "Database is ready. Executing command..."
-diesel migration run
+# Check if the migrations directory exists
+if [ ! -d "./migrations" ]; then
+  echo "Error: Migrations directory not found!"
+  exit 1
+fi
+
+# Run Diesel migrations
+diesel migration run --migration-dir ./migrations
+
+# Execute the specified command
 exec $cmd
