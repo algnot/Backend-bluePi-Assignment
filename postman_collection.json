@@ -1,0 +1,680 @@
+{
+	"info": {
+		"_postman_id": "cb0fc18a-96cd-4f15-8f22-2c78406f147a",
+		"name": "BluePi Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33402061"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"thanawat talabtong\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/register",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@admin.com\",\n    \"password\": \"changeme\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "generate new access token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhNWE0MWFhOC00YTZhLTQ5OTItYmZlNS1mYjgxYmY1NDNiZTkuM2Y1Yzc3NzAtODgyOC00YTc2LTlhYTItMmQ2Y2ZhMDFjOWI4IiwidG9rZW5faWQiOiJhNWE0MWFhOC00YTZhLTQ5OTItYmZlNS1mYjgxYmY1NDNiZTkiLCJ1aWQiOiIzZjVjNzc3MC04ODI4LTRhNzYtOWFhMi0yZDZjZmEwMWM5YjgiLCJ0b2tlbl90eXBlIjoiUmVmcmVzaFRva2VuIiwiZXhwIjoxNzM1ODMzNjI4LCJpYXQiOjE3MzUyMjg4Mjh9.KTQtc6gR5MNUIKAX5hQ-jUPT1S2q9rLqLAqWZBisOLs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/access-token",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"access-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYTg3MTYyMC1iNTUwLTRhMTMtYTI2YS02NDBlMjA3ZjgwYzkuM2Y1Yzc3NzAtODgyOC00YTc2LTlhYTItMmQ2Y2ZhMDFjOWI4IiwidG9rZW5faWQiOiJhYTg3MTYyMC1iNTUwLTRhMTMtYTI2YS02NDBlMjA3ZjgwYzkiLCJ1aWQiOiIzZjVjNzc3MC04ODI4LTRhNzYtOWFhMi0yZDZjZmEwMWM5YjgiLCJ0b2tlbl90eXBlIjoiQWNjZXNzVG9rZW4iLCJleHAiOjE3MzUxNTE2OTUsImlhdCI6MTczNTE1MDc5NX0.AYdPJeaYRq_pcEHHEHz9G11YrFpYg862bSy0MjR6jtE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/me",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "create product type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjNzhiOWQ1Yy02OGYyLTRkODQtYTM4OC02Yzg4NDEwYzk3M2QuM2Y1Yzc3NzAtODgyOC00YTc2LTlhYTItMmQ2Y2ZhMDFjOWI4IiwidG9rZW5faWQiOiJjNzhiOWQ1Yy02OGYyLTRkODQtYTM4OC02Yzg4NDEwYzk3M2QiLCJ1aWQiOiIzZjVjNzc3MC04ODI4LTRhNzYtOWFhMi0yZDZjZmEwMWM5YjgiLCJ0b2tlbl90eXBlIjoiQWNjZXNzVG9rZW4iLCJleHAiOjE3MzUyMjk3NDYsImlhdCI6MTczNTIyODg0Nn0.NS5lxAW779slrAECdpRBWtRT3Bs24oanzU7o51sCvTA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"เครื่องดืม\",\n    \"image_id\": \"\",\n    \"active\": true\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/product-type/create",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"product-type",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list product type",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"ของทานเล่น\",\n    \"active\": true\n}\n\n// {\n//     \"id\": \"\"\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/product-type/list",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"product-type",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get product type by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"ของทานเล่น\",\n    \"active\": true\n}\n\n// {\n//     \"id\": \"\"\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/product-type/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"product-type",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "a53f8a5b-e731-432b-a6be-8eaf85f0b70c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update product type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwZWZjMWEzZS04Y2VkLTQ2MDUtODRmZS1mZGYxYWNhYmVmMzcuM2Y1Yzc3NzAtODgyOC00YTc2LTlhYTItMmQ2Y2ZhMDFjOWI4IiwidG9rZW5faWQiOiIwZWZjMWEzZS04Y2VkLTQ2MDUtODRmZS1mZGYxYWNhYmVmMzciLCJ1aWQiOiIzZjVjNzc3MC04ODI4LTRhNzYtOWFhMi0yZDZjZmEwMWM5YjgiLCJ0b2tlbl90eXBlIjoiQWNjZXNzVG9rZW4iLCJleHAiOjE3MzUxNDg4NDEsImlhdCI6MTczNTE0Nzk0MX0.QThAub5BrqPVW091Uq_YICOCoj5DQXk1Yly6Xn5x_cQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"254322c0-f4b5-49a3-af59-998b7190042d\",\n    \"name\": \"ขนมของดนย์\",\n    \"image_id\": \"77a258f0-99d2-413d-a0a7-44524944a3ff\",\n    \"active\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/product-type/update",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"product-type",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjNzhiOWQ1Yy02OGYyLTRkODQtYTM4OC02Yzg4NDEwYzk3M2QuM2Y1Yzc3NzAtODgyOC00YTc2LTlhYTItMmQ2Y2ZhMDFjOWI4IiwidG9rZW5faWQiOiJjNzhiOWQ1Yy02OGYyLTRkODQtYTM4OC02Yzg4NDEwYzk3M2QiLCJ1aWQiOiIzZjVjNzc3MC04ODI4LTRhNzYtOWFhMi0yZDZjZmEwMWM5YjgiLCJ0b2tlbl90eXBlIjoiQWNjZXNzVG9rZW4iLCJleHAiOjE3MzUyMjk3NDYsImlhdCI6MTczNTIyODg0Nn0.NS5lxAW779slrAECdpRBWtRT3Bs24oanzU7o51sCvTA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"โค้ก\",\n    \"description\": \"\",\n    \"image_id\": \"\",\n    \"price\": 39.00,\n    \"quantity\": 100,\n    \"type_id\": \"70bc70c9-627d-47e5-aa1e-26573f7adf10\",\n    \"recommend\": true,\n    \"active\": true\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/product/create",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"product",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list product",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\",\n    \"description\": \"\",\n    \"price\": 200.50,\n    \"quantity\": 100,\n    \"type_id\": \"\",\n    \"recommend\": true,\n    \"active\": true\n}\n\n\n// {\n//     \"id\": \"\"\n// }\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/product/list",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"product",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get product by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/product/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"product",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "31eace98-c618-4dff-8f15-5415b798b0c7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MDJiNTdhNS00NmU3LTQyYjYtYjU4YS1lZWE1YjQwYTUyZTMuM2Y1Yzc3NzAtODgyOC00YTc2LTlhYTItMmQ2Y2ZhMDFjOWI4IiwidG9rZW5faWQiOiI2MDJiNTdhNS00NmU3LTQyYjYtYjU4YS1lZWE1YjQwYTUyZTMiLCJ1aWQiOiIzZjVjNzc3MC04ODI4LTRhNzYtOWFhMi0yZDZjZmEwMWM5YjgiLCJ0b2tlbl90eXBlIjoiQWNjZXNzVG9rZW4iLCJleHAiOjE3MzUxNTY5NTMsImlhdCI6MTczNTE1NjA1M30.biKqHSzzMLOBnMIpxIkaEogauL0GZOltEHoRSHKr0T0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"8fff5430-5955-43e2-8973-0a210fd1d629\",\n    \"name\": \"แมวน้ำ 2\",\n    \"description\": \"dwdwd\",\n    \"image_id\": \"77a258f0-99d2-413d-a0a7-44524944a3ff\",\n    \"price\": 210.50,\n    \"quantity\": 120,\n    \"type_id\": \"254322c0-f4b5-49a3-af59-998b7190042d\",\n    \"recommend\": false,\n    \"active\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/product/update",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"product",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "uploader",
+			"item": [
+				{
+					"name": "upload image",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/thanawattalabtong/Desktop/0b35fc4e208343e199a99c795d84b2b9.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/uploader/image",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"uploader",
+								"image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get image",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "postman-cloud:///1efc2e32-7cc2-4630-868b-2b3740296d8c"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/uploader/image/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"uploader",
+								"image",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "194ab672-6d1f-4085-9835-57c4cae26fbf"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "create order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"order_line\": [\n        // {\n        //     \"product_id\": \"b3fd5156-b7df-4fbd-87b5-f59814665298\",\n        //     \"quantity\": 1\n        // }\n        // {\n        //     \"product_id\": \"8fff5430-5955-43e2-8973-0a210fd1d629\",\n        //     \"quantity\": 1\n        // }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/order/create",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get order",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"order_line\": [\n        {\n            \"product_id\": \"31eace98-c618-4dff-8f15-5415b798b0c7\",\n            \"quantity\": 1\n        },\n        {\n            \"product_id\": \"8fff5430-5955-43e2-8973-0a210fd1d629\",\n            \"quantity\": 2\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/order/:name",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order",
+								":name"
+							],
+							"variable": [
+								{
+									"key": "name",
+									"value": "SO2024122773416"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "action pay order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sale_order_name\": \"SO2024122783679\",\n    \"user_coin\": {\n        \"coin_1\": 0,\n        \"coin_5\": 0,\n        \"coin_10\": 0,\n        \"bank_20\": 0,\n        \"bank_50\": 0,\n        \"bank_100\": 0,\n        \"bank_500\": 0,\n        \"bank_1000\": 1\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/order/pay",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order",
+								"pay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "action cancel order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sale_order_name\": \"SO2024122799012\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/order/cancel",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Setting",
+			"item": [
+				{
+					"name": "get coin and banknote",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/system/get-coin",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"system",
+								"get-coin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insert coin and banknote",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"coin_1\": 1,\n    \"coin_5\": 1,\n    \"coin_10\": 1,\n    \"bank_20\": 1,\n    \"bank_50\": 1,\n    \"bank_100\": 1,\n    \"bank_500\": 1,\n    \"bank_1000\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/system/insert-coin",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"system",
+								"insert-coin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

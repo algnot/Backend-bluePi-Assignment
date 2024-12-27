@@ -30,3 +30,7 @@ features = [
     "fast-rng",
     "macro-diagnostics",
 ]
+
+[[bin]]
+name = "backend-bluepi-assignment"
+path = "src/main.rs"
