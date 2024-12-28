@@ -19,7 +19,7 @@
     1: 📄 docker compose build
     2: 📄 docker compose up -d
 ```
-- 💡 Path API backend http://localhost:8080 ถ้าไม่แน่ใจว่า server รันจริงไหมลองเข้า http://localhost:8080/product/list ก็ได้คับ ;-; สามารถดู API spec ผ่านไฟล์ [postman](/postman_collection.json)
+- 💡 Path API backend http://localhost ถ้าไม่แน่ใจว่า server รันจริงไหมลองเข้า http://localhost/product/list ก็ได้คับ ;-; สามารถดู API spec ผ่านไฟล์ [postman](/postman_collection.json)
 - 💡 เข้าดู database ผ่าน phpmyadmin ที่ http://localhost:8090 (username: root, password:root)
 
 ### 📁 Project Structure
