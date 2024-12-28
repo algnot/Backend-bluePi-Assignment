@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
 RUN cargo install diesel_cli
 
 # Expose the application port
-EXPOSE 8080
+EXPOSE 9000
 
 # Command to start the container
 CMD ["./wait-for-db.sh", "db:3306", "--", "cargo", "run"]
