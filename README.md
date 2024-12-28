@@ -3,8 +3,8 @@
 นี่เป็น project rust project แรกของผมนะคับ โครงสร้าง project เลยจะเหมือนของ go หน่อย ผมเขียน unit test ไม่ทัน ;-; 
 
 - Link for production
-    - Frontend:
-    - Backend:
+    - Frontend: https://frontend-blue-pi-assignment-li2pxjsrx-algnots-projects.vercel.app/
+    - Backend: https://bluepi-be.tongla.dev
 - Frontend Repository: https://github.com/algnot/Frontend-bluePi-Assignment
   
 ### 📍 Dependencies
