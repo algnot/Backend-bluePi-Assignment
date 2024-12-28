@@ -2,6 +2,11 @@
 
 นี่เป็น project rust project แรกของผมนะคับ โครงสร้าง project เลยจะเหมือนของ go หน่อย ผมเขียน unit test ไม่ทัน ;-; 
 
+- Link for production
+    - Frontend:
+    - Backend:
+- Frontend Repository: https://github.com/algnot/Frontend-bluePi-Assignment
+  
 ### 📍 Dependencies
 - ✅ rust v.1.83
 - ✅ mysql v.9.1
