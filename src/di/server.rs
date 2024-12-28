@@ -6,10 +6,10 @@ use crate::service::http::router::main_router;
 
 #[actix_web::main]
 pub async fn init_api_server() -> std::io::Result<()> {
-    let server_port: u16 = get_config("SERVER_PORT", "8080")
+    let server_port: u16 = get_config("SERVER_PORT", "9000")
         .parse().unwrap_or_else(|_| {
-        eprintln!("Invalid SERVER_PORT; defaulting to 8080");
-        8080
+        eprintln!("Invalid SERVER_PORT; defaulting to 9000");
+        9000
     });
 
     HttpServer::new(|| {
