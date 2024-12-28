@@ -1,3 +1,4 @@
+use std::fmt::format;
 use actix_cors::Cors;
 use actix_web::{middleware, web, App, HttpServer};
 use crate::common::config::get_config;
@@ -7,9 +8,9 @@ use crate::service::http::router::main_router;
 pub async fn init_api_server() -> std::io::Result<()> {
     let server_port: u16 = get_config("SERVER_PORT", "8080")
         .parse().unwrap_or_else(|_| {
-            eprintln!("Invalid SERVER_PORT; defaulting to 8080");
-            8080
-        });
+        eprintln!("Invalid SERVER_PORT; defaulting to 8080");
+        8080
+    });
 
     HttpServer::new(|| {
         let cors = Cors::default()
@@ -22,7 +23,7 @@ pub async fn init_api_server() -> std::io::Result<()> {
             .wrap(cors)
             .service(web::scope("").configure(main_router))
     })
-        .bind("0.0.0.0:8080")?
+        .bind(format!("0.0.0.0:{}", server_port))?
         .run()
         .await
 }
