@@ -1,7 +1,5 @@
 ## 📙 `Backend-bluePi-Assignment` project guide
 
-นี่เป็น project rust project แรกของผมนะคับ โครงสร้าง project เลยจะเหมือนของ go หน่อย ผมเขียน unit test ไม่ทัน ;-; 
-
 - Link for production
     - Frontend: https://frontend-blue-pi-assignment.vercel.app
     - Backend: https://bluepi-be.tongla.dev
